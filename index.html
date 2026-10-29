@@ -1,0 +1,1979 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>HMB Agency • Sim số đẹp & Minigame ghép số</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', 'Segoe UI', Roboto, system-ui, sans-serif;
+    }
+
+    :root {
+      --primary: #0066cc;
+      --primary-dark: #004d99;
+      --primary-light: #e6f2ff;
+      --accent: #ff6b00;
+      --accent-light: #fff0e6;
+      --success: #00a86b;
+      --danger: #dc3545;
+      --text-dark: #0a1a2b;
+      --text-medium: #3a5a72;
+      --text-light: #6b8fa3;
+      --bg-body: #f0f7fe;
+      --bg-card: #ffffff;
+      --border: #d4e4f2;
+      --shadow-sm: 0 2px 8px rgba(0, 80, 150, 0.08);
+      --shadow-md: 0 8px 24px rgba(0, 80, 150, 0.12);
+      --shadow-lg: 0 16px 40px rgba(0, 80, 150, 0.16);
+      --gradient-hero: linear-gradient(135deg, #0066cc 0%, #0099ff 50%, #00c2ff 100%);
+      --gradient-accent: linear-gradient(135deg, #ff6b00, #ff9500);
+    }
+
+    body {
+      background: var(--bg-body);
+      color: var(--text-dark);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    .icon {
+      width: 1.2em;
+      height: 1.2em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      vertical-align: middle;
+      fill: currentColor;
+    }
+
+    .icon-sm { width: 1em; height: 1em; }
+    .icon-lg { width: 1.6em; height: 1.6em; }
+    .icon-xl { width: 2.2em; height: 2.2em; }
+
+    /* ===== HEADER ===== */
+    .top-bar {
+      background: #ffffff;
+      box-shadow: 0 2px 20px rgba(0, 80, 150, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 3px solid var(--primary);
+    }
+
+    .top-bar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 14px 24px;
+    }
+
+    .brand-logo {
+      font-weight: 900;
+      font-size: 1.7rem;
+      letter-spacing: -0.5px;
+      background: var(--gradient-hero);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer; /* Thêm cursor pointer */
+      transition: transform 0.2s;
+    }
+
+    .brand-logo:hover {
+      transform: scale(1.02);
+    }
+
+    .brand-logo .icon {
+      width: 1.8rem;
+      height: 1.8rem;
+      fill: var(--primary);
+      -webkit-text-fill-color: initial;
+      background: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: var(--text-medium);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.92rem;
+      transition: 0.2s;
+      cursor: pointer;
+      padding: 10px 18px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+    }
+
+    .nav-links a .icon {
+      width: 1.1rem;
+      height: 1.1rem;
+      fill: var(--text-light);
+      transition: 0.2s;
+    }
+
+    .nav-links a:hover {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+    }
+
+    .nav-links a:hover .icon { fill: var(--primary); }
+
+    .nav-links a.active {
+      background: var(--gradient-hero);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(0, 102, 204, 0.35);
+    }
+
+    .nav-links a.active .icon { fill: #ffffff; }
+
+    .mobile-menu-toggle {
+      display: none;
+      background: var(--primary-light);
+      border: none;
+      color: var(--primary);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 10px 12px;
+      border-radius: 10px;
+      line-height: 1;
+    }
+
+    .mobile-menu-toggle .icon { width: 1.4rem; height: 1.4rem; fill: var(--primary); }
+
+    main { flex: 1; }
+
+    .page { display: none; animation: fade 0.3s ease; }
+    .page.active { display: block; }
+
+    @keyframes fade {
+      from { opacity: 0.2; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== HERO ===== */
+    .hero-banner {
+      background: var(--gradient-hero);
+      border-radius: 32px;
+      padding: 52px 44px;
+      margin: 28px 0 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-banner::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 280px;
+      height: 280px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+
+    .hero-banner::after {
+      content: '';
+      position: absolute;
+      bottom: -80px;
+      left: 20%;
+      width: 180px;
+      height: 180px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 50%;
+    }
+
+    .hero-text { position: relative; z-index: 2; }
+
+    .hero-text h2 {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      text-shadow: 0 2px 12px rgba(0, 40, 80, 0.2);
+    }
+
+    .hero-text .highlight {
+      color: #ffde59;
+      text-shadow: 0 2px 12px rgba(255, 180, 0, 0.4);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-top: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .hero-badge .icon { width: 1.1rem; height: 1.1rem; fill: #ffde59; }
+
+    .sale-banner {
+      background: #fff8e1;
+      border: 2px solid #ffc107;
+      border-left: 8px solid var(--accent);
+      padding: 18px 26px;
+      border-radius: 18px;
+      margin: 18px 0 22px;
+      font-weight: 600;
+      color: #7a4d00;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 6px 20px rgba(255, 140, 0, 0.15);
+    }
+
+    .sale-banner .icon { width: 1.8rem; height: 1.8rem; fill: var(--accent); }
+
+    .sale-banner strong {
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 900;
+    }
+
+    /* ===== MINIGAME ===== */
+    .minigame-section {
+      background: var(--bg-card);
+      border-radius: 32px;
+      padding: 36px 32px;
+      margin: 24px 0 28px;
+      box-shadow: var(--shadow-md);
+      border: 2px solid #e1f0ff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .minigame-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: var(--gradient-accent);
+    }
+
+    .minigame-title {
+      font-size: 1.7rem;
+      font-weight: 900;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .minigame-title .icon {
+      width: 2rem;
+      height: 2rem;
+      fill: var(--accent);
+    }
+
+    .minigame-sub {
+      color: var(--text-medium);
+      margin-bottom: 28px;
+      font-weight: 500;
+      font-size: 1rem;
+    }
+
+    .ghép-number-area {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ghép-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 260px;
+      flex: 1;
+      max-width: 340px;
+    }
+
+    .ghép-input-group label {
+      font-weight: 800;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ghép-input-group label .icon { width: 1rem; height: 1rem; fill: var(--primary); }
+
+    .ghép-input-group input {
+      padding: 18px 20px;
+      font-size: 1.7rem;
+      font-weight: 800;
+      text-align: center;
+      border: 3px solid var(--border);
+      border-radius: 22px;
+      background: var(--primary-light);
+      color: var(--text-dark);
+      letter-spacing: 5px;
+      transition: 0.2s;
+      font-family: 'Inter', monospace;
+    }
+
+    .ghép-input-group input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: 0 0 0 5px rgba(0, 102, 204, 0.15);
+    }
+
+    .ghép-input-group input::placeholder {
+      color: #a0bdd0;
+      letter-spacing: 2px;
+    }
+
+    .ghép-btn {
+      background: var(--gradient-accent);
+      border: none;
+      color: white;
+      font-weight: 800;
+      padding: 20px 36px;
+      border-radius: 30px;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 8px 24px rgba(255, 107, 0, 0.4);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      height: fit-content;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .ghép-btn .icon { width: 1.3rem; height: 1.3rem; fill: #ffffff; }
+
+    .ghép-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(255, 107, 0, 0.5);
+    }
+
+    .ghép-btn:active { transform: translateY(0); }
+
+    .ghép-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+      background: #9bb7c7;
+    }
+
+    .ghép-result {
+      background: linear-gradient(135deg, #e6f2ff, #d4ebff);
+      border-radius: 26px;
+      padding: 28px;
+      margin-top: 28px;
+      border: 2px solid var(--primary);
+      display: none;
+      animation: popIn 0.35s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ghép-result::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: var(--gradient-hero);
+    }
+
+    .ghép-result.show { display: block; }
+
+    .ghép-result h4 {
+      font-size: 1.05rem;
+      color: var(--primary-dark);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .ghép-result h4 .icon { width: 1.3rem; height: 1.3rem; fill: var(--primary); }
+
+    .ghép-result .result-number {
+      font-size: 2.6rem;
+      font-weight: 900;
+      color: var(--primary-dark);
+      letter-spacing: 6px;
+      margin-bottom: 18px;
+      word-break: break-all;
+      text-shadow: 0 2px 8px rgba(0, 80, 150, 0.12);
+    }
+
+    .ghép-result .result-meaning {
+      font-size: 1.1rem;
+      color: var(--text-dark);
+      background: #ffffff;
+      padding: 20px 24px;
+      border-radius: 18px;
+      margin-bottom: 22px;
+      font-weight: 600;
+      border-left: 6px solid var(--accent);
+      box-shadow: var(--shadow-sm);
+      line-height: 1.5;
+    }
+
+    .ghép-result .coupon-tag {
+      background: var(--gradient-accent);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-weight: 800;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+      box-shadow: 0 6px 18px rgba(255, 107, 0, 0.35);
+      letter-spacing: 0.3px;
+    }
+
+    .ghép-result .coupon-tag .icon { width: 1.2rem; height: 1.2rem; fill: #ffffff; }
+
+    .ghép-result .coupon-tag.show { display: inline-flex; }
+
+    @keyframes popIn {
+      from { transform: scale(0.96); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    /* ===== FILTER ===== */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin: 25px 0 20px;
+      align-items: flex-end;
+      background: var(--bg-card);
+      padding: 24px 28px;
+      border-radius: 26px;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid #e1f0ff;
+    }
+
+    .filter-group {
+      position: relative;
+      flex: 1 1 180px;
+      min-width: 160px;
+      max-width: 100%;
+    }
+
+    .filter-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .filter-label .icon { width: 0.9rem; height: 0.9rem; fill: var(--primary); }
+
+    .filter-group select {
+      width: 100%;
+      padding: 14px 42px 14px 18px;
+      border-radius: 16px;
+      border: 2px solid var(--border);
+      background: #ffffff;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      cursor: pointer;
+      appearance: none;
+      transition: all 0.2s ease;
+    }
+
+    .filter-group select:hover { border-color: var(--primary); }
+
+    .filter-group select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.12);
+    }
+
+    .filter-group::after {
+      content: '';
+      position: absolute;
+      right: 18px;
+      top: 62%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid var(--primary);
+      pointer-events: none;
+      transition: transform 0.2s;
+    }
+
+    .filter-group:hover::after { transform: translateY(-50%) rotate(180deg); }
+
+    /* ===== PRODUCT CARDS ===== */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 22px;
+      margin: 20px 0 40px;
+    }
+
+    .sim-card {
+      background: var(--bg-card);
+      border-radius: 24px;
+      padding: 22px 20px;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.22s;
+      cursor: pointer;
+      border: 2px solid #e1f0ff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sim-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient-hero);
+      transform: scaleX(0);
+      transition: transform 0.3s;
+    }
+
+    .sim-card:hover::before { transform: scaleX(1); }
+
+    .sim-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--primary);
+      box-shadow: var(--shadow-md);
+    }
+
+    .sim-type-tag {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 0.7rem;
+      padding: 6px 14px;
+      border-radius: 30px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border: 1px solid #ffd4b0;
+    }
+
+    .sim-number {
+      font-size: 1.65rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      color: var(--text-dark);
+      margin-bottom: 10px;
+      margin-top: 26px;
+    }
+
+    .network-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      letter-spacing: 0.3px;
+    }
+
+    .network-badge .icon { width: 0.85rem; height: 0.85rem; fill: var(--primary); }
+
+    .price {
+      font-weight: 900;
+      font-size: 1.35rem;
+      color: var(--accent);
+      margin-top: 14px;
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .sim-prefix {
+      color: var(--text-light);
+      font-size: 0.8rem;
+      margin-top: 8px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sim-prefix .icon { width: 0.8rem; height: 0.8rem; fill: var(--text-light); }
+
+    /* ===== DETAIL ===== */
+    .detail-container {
+      background: var(--bg-card);
+      border-radius: 28px;
+      padding: 34px;
+      margin: 24px 0;
+      box-shadow: var(--shadow-md);
+      border: 2px solid #e1f0ff;
+    }
+
+    .detail-number {
+      font-size: 2.6rem;
+      font-weight: 900;
+      margin-bottom: 10px;
+      color: var(--text-dark);
+      letter-spacing: 3px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .detail-number .icon { width: 2.2rem; height: 2.2rem; fill: var(--primary); }
+
+    .order-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .order-form h3 {
+      font-weight: 800;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.15rem;
+    }
+
+    .order-form h3 .icon { width: 1.3rem; height: 1.3rem; fill: var(--accent); }
+
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .form-group { flex: 1 1 200px; }
+
+    .form-group label {
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: var(--primary-dark);
+      display: block;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 16px;
+      border: 2px solid var(--border);
+      font-size: 0.95rem;
+      background: #fbfdff;
+      transition: 0.2s;
+      color: var(--text-dark);
+      font-weight: 500;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+    }
+
+    .form-group select:invalid,
+    .form-group select option[value=""] {
+      color: #9bb7c7;
+    }
+
+    .total-amount {
+      font-size: 1.7rem;
+      font-weight: 900;
+      color: var(--text-dark);
+    }
+
+    .total-amount span { color: var(--accent); }
+
+    .discount-input {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .discount-input input {
+      flex: 1;
+      padding: 14px 18px;
+      border-radius: 16px;
+      border: 2px solid var(--border);
+      font-size: 0.95rem;
+      background: #fbfdff;
+      min-width: 150px;
+    }
+
+    .discount-input input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: white;
+    }
+
+    .btn-primary {
+      background: var(--gradient-hero);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 30px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.92rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 6px 18px rgba(0, 102, 204, 0.3);
+      letter-spacing: 0.3px;
+    }
+
+    .btn-primary .icon { width: 1.1rem; height: 1.1rem; fill: #ffffff; }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 26px rgba(0, 102, 204, 0.4);
+    }
+
+    .btn-accent {
+      background: var(--gradient-accent);
+      box-shadow: 0 6px 18px rgba(255, 107, 0, 0.3);
+    }
+
+    .btn-accent:hover { box-shadow: 0 10px 26px rgba(255, 107, 0, 0.4); }
+
+    .back-link {
+      color: var(--primary);
+      cursor: pointer;
+      margin-bottom: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      padding: 8px 16px;
+      border-radius: 30px;
+      background: var(--primary-light);
+      transition: 0.2s;
+    }
+
+    .back-link .icon { width: 1rem; height: 1rem; fill: var(--primary); }
+
+    .back-link:hover { background: #d4ebff; }
+
+    #discountMsg { font-weight: 700; font-size: 0.92rem; }
+
+    /* ===== ABOUT ===== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      margin: 30px 0;
+    }
+
+    .about-card {
+      background: var(--bg-card);
+      border-radius: 24px;
+      padding: 32px 24px;
+      box-shadow: var(--shadow-sm);
+      text-align: center;
+      transition: 0.2s;
+      border: 2px solid #e1f0ff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: var(--gradient-hero);
+    }
+
+    .about-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary);
+      box-shadow: var(--shadow-md);
+    }
+
+    .about-card .icon-xl {
+      width: 2.6rem;
+      height: 2.6rem;
+      fill: var(--primary);
+      margin-bottom: 16px;
+    }
+
+    .about-card h3 {
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+      font-size: 1.05rem;
+    }
+
+    .about-card p { color: var(--text-medium); font-weight: 500; font-size: 0.92rem; }
+
+    .about-note {
+      background: linear-gradient(135deg, #e6f2ff, #d4ebff);
+      padding: 24px 28px;
+      border-radius: 22px;
+      color: var(--primary-dark);
+      font-weight: 600;
+      border-left: 6px solid var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      line-height: 1.5;
+    }
+
+    .about-note .icon { width: 1.8rem; height: 1.8rem; fill: var(--success); flex-shrink: 0; }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: #0a1a2b;
+      color: #b8d4e8;
+      padding: 48px 0 24px;
+      margin-top: 50px;
+      position: relative;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient-hero);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-col h4 {
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-col h4 .icon { width: 1.1rem; height: 1.1rem; fill: var(--primary); }
+
+    .footer-col h4::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: var(--gradient-hero);
+      border-radius: 3px;
+    }
+
+    .footer-col p {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .footer-col p .icon {
+      width: 1rem;
+      height: 1rem;
+      fill: var(--primary);
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    .footer-links { list-style: none; padding: 0; }
+
+    .footer-links li { margin-bottom: 12px; }
+
+    .footer-links a {
+      color: #b8d4e8;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .footer-links a .icon {
+      width: 0.7rem;
+      height: 0.7rem;
+      fill: var(--primary);
+      transition: 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: #ffffff;
+      transform: translateX(4px);
+    }
+
+    .footer-links a:hover .icon { fill: var(--accent); }
+
+    .social-links {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .social-links a {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #b8d4e8;
+      transition: 0.2s;
+      text-decoration: none;
+    }
+
+    .social-links a .icon { width: 1.2rem; height: 1.2rem; fill: #b8d4e8; }
+
+    .social-links a:hover {
+      background: var(--gradient-hero);
+      transform: translateY(-3px);
+    }
+
+    .social-links a:hover .icon { fill: #ffffff; }
+
+    .newsletter-form {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .newsletter-form input {
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.06);
+      color: white;
+      font-size: 0.9rem;
+    }
+
+    .newsletter-form input::placeholder { color: #7d9eb3; }
+
+    .newsletter-form input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .newsletter-form button {
+      padding: 12px 22px;
+      border-radius: 14px;
+      background: var(--gradient-accent);
+      color: white;
+      border: none;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.9rem;
+    }
+
+    .newsletter-form button:hover { transform: translateY(-2px); }
+
+    .payment-methods {
+      display: flex;
+      gap: 14px;
+      font-size: 1.4rem;
+    }
+
+    .payment-methods .icon {
+      width: 1.6rem;
+      height: 1.6rem;
+      fill: #6d97ad;
+      transition: 0.2s;
+    }
+
+    .payment-methods .icon:hover { fill: var(--accent); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      font-size: 0.85rem;
+    }
+
+    .footer-bottom-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-bottom-links a {
+      color: #8bb3c9;
+      text-decoration: none;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .footer-bottom-links a:hover { color: #ffffff; }
+
+    .hidden { display: none; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .hero-text h2 { font-size: 2.1rem; }
+      .filter-bar { padding: 20px; gap: 15px; }
+      .filter-group { flex: 1 1 160px; }
+      .product-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); }
+      .ghép-number-area { gap: 24px; }
+      .ghép-btn { padding: 18px 28px; }
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 0 16px; }
+      .mobile-menu-toggle { display: block; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #ffffff;
+        flex-direction: column;
+        padding: 16px;
+        gap: 6px;
+        box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.15);
+        z-index: 999;
+        border-radius: 0 0 20px 20px;
+        border-top: 1px solid var(--border);
+      }
+      .nav-links.active { display: flex; }
+      .nav-links a { padding: 12px 14px; }
+      .brand-logo { font-size: 1.4rem; }
+      .hero-banner { padding: 32px 22px; border-radius: 26px; }
+      .hero-text h2 { font-size: 1.65rem; }
+      .sale-banner { padding: 14px 18px; font-size: 0.88rem; }
+      .minigame-section { padding: 26px 18px; border-radius: 26px; }
+      .minigame-title { font-size: 1.35rem; }
+      .ghép-number-area { flex-direction: column; align-items: stretch; }
+      .ghép-input-group { min-width: auto; max-width: 100%; }
+      .ghép-input-group input { font-size: 1.4rem; padding: 16px; }
+      .ghép-btn { width: 100%; justify-content: center; }
+      .filter-bar { flex-direction: column; gap: 14px; padding: 20px; border-radius: 22px; }
+      .filter-group { width: 100%; flex: none; }
+      .detail-container { padding: 24px 18px; border-radius: 22px; }
+      .detail-number { font-size: 1.9rem; }
+      .form-row { flex-direction: column; gap: 16px; }
+      .total-amount { font-size: 1.4rem; }
+      .discount-input { flex-direction: column; align-items: stretch; }
+      .discount-input input { width: 100%; }
+      .about-grid { grid-template-columns: 1fr; gap: 16px; }
+      .footer { padding: 32px 0 18px; margin-top: 32px; }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+      .newsletter-form { flex-direction: column; }
+      .footer-bottom { flex-direction: column; text-align: center; gap: 16px; }
+      .footer-bottom-links { justify-content: center; }
+      .payment-methods { justify-content: center; }
+      .social-links { justify-content: center; }
+      .ghép-result .result-number { font-size: 1.9rem; }
+    }
+
+    /* ===== FIX KHOẢNG CÁCH FORM TRÊN MOBILE ===== */
+    @media (max-width: 600px) {
+      /* Product grid: 2 cột */
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin: 15px 0 30px;
+      }
+
+      .sim-card {
+        padding: 14px 12px;
+        border-radius: 18px;
+      }
+
+      .sim-type-tag {
+        font-size: 0.6rem;
+        padding: 4px 8px;
+        top: 10px;
+        right: 10px;
+        border-radius: 20px;
+      }
+
+      .sim-number {
+        font-size: 1.05rem;
+        letter-spacing: 0;
+        margin-top: 24px;
+        margin-bottom: 6px;
+        word-break: break-all;
+      }
+
+      .network-badge {
+        font-size: 0.65rem;
+        padding: 4px 8px;
+        gap: 4px;
+      }
+
+      .network-badge .icon { width: 0.7rem; height: 0.7rem; }
+
+      .price {
+        font-size: 0.95rem;
+        margin-top: 8px;
+      }
+
+      .sim-prefix {
+        font-size: 0.7rem;
+        margin-top: 5px;
+        gap: 4px;
+      }
+
+      .sim-prefix .icon { width: 0.65rem; height: 0.65rem; }
+
+      /* Footer: 2 cột */
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 22px;
+      }
+
+      .footer-col h4 { font-size: 0.9rem; margin-bottom: 14px; padding-bottom: 10px; }
+      .footer-col h4 .icon { width: 0.95rem; height: 0.95rem; }
+      .footer-col h4::after { width: 32px; height: 2px; }
+      .footer-col p { font-size: 0.8rem; gap: 8px; margin-bottom: 10px; }
+      .footer-col p .icon { width: 0.85rem; height: 0.85rem; }
+      .footer-links a { font-size: 0.8rem; gap: 8px; }
+      .footer-links a .icon { width: 0.6rem; height: 0.6rem; }
+      .footer-links li { margin-bottom: 10px; }
+      .social-links { gap: 8px; margin-top: 14px; }
+      .social-links a { width: 34px; height: 34px; border-radius: 10px; }
+      .social-links a .icon { width: 1rem; height: 1rem; }
+      .newsletter-form input { padding: 10px 12px; font-size: 0.8rem; }
+      .newsletter-form button { padding: 10px 16px; font-size: 0.8rem; }
+      .payment-methods { gap: 10px; }
+      .payment-methods .icon { width: 1.3rem; height: 1.3rem; }
+
+      /* ===== SỬA LỖI GIAO DIỆN FORM BỊ GIÃN ===== */
+      .order-form {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-top: 16px;
+      }
+
+      .order-form h3 {
+        font-size: 1rem;
+        margin-bottom: 0;
+        margin-top: 4px;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .form-group {
+        flex: none;
+      }
+
+      .form-group label {
+        font-size: 0.75rem;
+        margin-bottom: 4px;
+      }
+
+      .form-group input,
+      .form-group select {
+        padding: 10px 14px;
+        font-size: 0.85rem;
+        border-radius: 12px;
+      }
+
+      .discount-input {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .discount-input input {
+        width: 100%;
+        padding: 10px 14px;
+        font-size: 0.85rem;
+        border-radius: 12px;
+      }
+
+      .discount-input .btn-primary {
+        width: 100%;
+        justify-content: center;
+        padding: 10px 16px;
+        font-size: 0.85rem;
+        border-radius: 20px;
+      }
+
+      .total-amount {
+        font-size: 1.25rem;
+      }
+
+      #orderBtn {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 20px;
+        font-size: 0.9rem;
+        margin-top: 8px;
+      }
+
+      #discountMsg {
+        font-size: 0.8rem;
+        margin-top: 4px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-text h2 { font-size: 1.35rem; }
+      .hero-banner { padding: 24px 16px; }
+      .minigame-section { padding: 20px 14px; }
+      .ghép-input-group input { font-size: 1.2rem; letter-spacing: 3px; }
+      .detail-number { font-size: 1.5rem; word-break: break-all; }
+      .ghép-result .result-number { font-size: 1.6rem; letter-spacing: 3px; }
+
+      .sim-card { padding: 12px 10px; }
+      .sim-number { font-size: 0.95rem; margin-top: 22px; }
+      .price { font-size: 0.85rem; }
+      .network-badge { font-size: 0.6rem; padding: 3px 6px; }
+      .sim-type-tag { font-size: 0.55rem; padding: 3px 6px; }
+
+      .footer-grid { gap: 18px; }
+      .footer-col h4 { font-size: 0.85rem; }
+      .footer-col p { font-size: 0.75rem; }
+      .footer-links a { font-size: 0.75rem; }
+
+      .order-form { gap: 10px; margin-top: 14px; }
+      .form-row { gap: 10px; }
+      .form-group input,
+      .form-group select { padding: 9px 12px; font-size: 0.82rem; }
+      .discount-input input { padding: 9px 12px; font-size: 0.82rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== SVG SPRITE ===== -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="i-sim" viewBox="0 0 24 24">
+    <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6l-4-4zm-2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V5.5l4.5 4.5H13z"/>
+  </symbol>
+  <symbol id="i-home" viewBox="0 0 24 24">
+    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+  </symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24">
+    <path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/>
+  </symbol>
+  <symbol id="i-users" viewBox="0 0 24 24">
+    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+  </symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24">
+    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+  </symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24">
+    <path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/>
+  </symbol>
+  <symbol id="i-puzzle" viewBox="0 0 24 24">
+    <path d="M20.5 11H19V7c0-1.1-.9-2-2-2h-4V3.5C13 2.12 11.88 1 10.5 1S8 2.12 8 3.5V5H4c-1.1 0-2 .9-2 2v3.8h1.5c1.49 0 2.7 1.21 2.7 2.7s-1.21 2.7-2.7 2.7H2V20c0 1.1.9 2 2 2h3.8v-1.5c0-1.49 1.21-2.7 2.7-2.7s2.7 1.21 2.7 2.7V22H17c1.1 0 2-.9 2-2v-4h1.5c1.38 0 2.5-1.12 2.5-2.5S21.88 11 20.5 11z"/>
+  </symbol>
+  <symbol id="i-magic" viewBox="0 0 24 24">
+    <path d="M7.5 5.6L10 7 8.6 4.5 10 2 7.5 3.4 5 2l1.4 2.5L5 7l2.5-1.4zm12 12L17 19l1.4-2.5L17 14l2.5 1.4L22 14l-1.4 2.5L22 19l-2.5-1.4zM22 2l-2.5 1.4L17 2l1.4 2.5L17 7l2.5-1.4L22 7l-1.4-2.5L22 2zM5 14l-2.5 1.4L4 18l-1.4 2.5L5 19l2.5 1.4L6.1 18 7.5 15.5 5 17l-1.4-2.5L5 14z"/>
+  </symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24">
+    <path d="M12 2l2.4 7.2H22l-6 4.8 2.4 7.2-6.4-4.8L5.6 21 8 14 2 9.2h7.6L12 2z"/>
+  </symbol>
+  <symbol id="i-ticket" viewBox="0 0 24 24">
+    <path d="M22 10V6c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2v4c1.1 0 1.99.9 1.99 2s-.89 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2s.9-2 2-2zm-2-1.46c-1.19.69-2 1.99-2 3.46s.81 2.77 2 3.46V18H4v-2.54c1.19-.69 2-1.99 2-3.46 0-1.48-.8-2.77-1.99-3.46L4 6h16v2.54z"/>
+    <path d="M9 10.5l1.5 1.5L9 13.5V10.5zM15 13.5l-1.5-1.5L15 10.5v3z"/>
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24">
+    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+  </symbol>
+  <symbol id="i-check-circle" viewBox="0 0 24 24">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24">
+    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+  </symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24">
+    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+  </symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24">
+    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+  </symbol>
+  <symbol id="i-map" viewBox="0 0 24 24">
+    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+  </symbol>
+  <symbol id="i-envelope" viewBox="0 0 24 24">
+    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+  </symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24">
+    <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+  </symbol>
+  <symbol id="i-facebook" viewBox="0 0 24 24">
+    <path d="M18 2h-3c-2.76 0-5 2.24-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7c0-.55.45-1 1-1h3V2z"/>
+  </symbol>
+  <symbol id="i-zalo" viewBox="0 0 24 24">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.5 13.5h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+  </symbol>
+  <symbol id="i-youtube" viewBox="0 0 24 24">
+    <path d="M23.5 6.2c-.3-1.1-1.2-2-2.3-2.2C19.3 3.6 12 3.6 12 3.6s-7.3 0-9.2.4c-1.1.3-2 1.1-2.3 2.2C.1 8.1.1 12 .1 12s0 3.9.4 5.8c.3 1.1 1.2 2 2.3 2.2 1.9.4 9.2.4 9.2.4s7.3 0 9.2-.4c1.1-.3 2-1.1 2.3-2.2.4-1.9.4-5.8.4-5.8s0-3.9-.4-5.8zM9.6 15.6V8.4l6.1 3.6-6.1 3.6z"/>
+  </symbol>
+  <symbol id="i-tiktok" viewBox="0 0 24 24">
+    <path d="M19.6 6.7c-1.1 0-2.1-.4-2.9-1.2-.8-.8-1.2-1.8-1.2-2.9V2h-4v13.2c0 1.4-1.1 2.5-2.5 2.5S6.5 16.6 6.5 15.2s1.1-2.5 2.5-2.5c.3 0 .5 0 .8.1V8.6c-.3 0-.5-.1-.8-.1-3.6 0-6.5 2.9-6.5 6.5s2.9 6.5 6.5 6.5 6.5-2.9 6.5-6.5V9.4c1 .7 2.2 1.1 3.5 1.1h.1V6.7h-.5z"/>
+  </symbol>
+  <symbol id="i-hash" viewBox="0 0 24 24">
+    <path d="M20 10V8h-4V4h-2v4h-4V4H8v4H4v2h4v4H4v2h4v4h2v-4h4v4h2v-4h4v-2h-4v-4h4zm-6 4h-4v-4h4v4z"/>
+  </symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24">
+    <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+  </symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24">
+    <path d="M18 17H6v-2h12v2zm0-4H6v-2h12v2zm0-4H6V7h12v2zM3 22l1.5-1.5L6 22l1.5-1.5L9 22l1.5-1.5L12 22l1.5-1.5L15 22l1.5-1.5L18 22l1.5-1.5L21 22V2l-1.5 1.5L18 2l-1.5 1.5L15 2l-1.5 1.5L12 2l-1.5 1.5L9 2 7.5 3.5 6 2 4.5 3.5 3 2v20z"/>
+  </symbol>
+  <symbol id="i-money" viewBox="0 0 24 24">
+    <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+  </symbol>
+  <symbol id="i-card" viewBox="0 0 24 24">
+    <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+  </symbol>
+  <symbol id="i-bank" viewBox="0 0 24 24">
+    <path d="M11.5 1L2 6v2h19V6l-9.5-5zM2 10v9h4v-9H2zm6 0v9h4v-9H8zm6 0v9h4v-9h-4zm-8 9v2h16v-2H6z"/>
+  </symbol>
+  <symbol id="i-qr" viewBox="0 0 24 24">
+    <path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zm8-12v8h8V3h-8zm6 6h-4V5h4v4zm-6 6h2v2h-2zm2 2h2v2h-2zm-2 2h2v2h-2zm2 2h2v2h-2zm2-4h2v2h-2zm2 2h2v2h-2zm-4-4h2v2h-2zm2 2h2v2h-2zm2-2h2v2h-2zm2 2h2v2h-2zm-6-2h2v2h-2zm2-2h2v2h-2z"/>
+  </symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24">
+    <path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/>
+  </symbol>
+  <symbol id="i-star" viewBox="0 0 24 24">
+    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+  </symbol>
+  <symbol id="i-thumbs-up" viewBox="0 0 24 24">
+    <path d="M1 21h4V9H1v12zM23 10c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/>
+  </symbol>
+</svg>
+
+<!-- ===== HEADER ===== -->
+<div class="top-bar">
+  <div class="container">
+    <!-- Thêm id="brandLogo" và chức năng click -->
+    <div class="brand-logo" id="brandLogo">
+      <svg class="icon"><use href="#i-sim"/></svg> HMB Agency
+    </div>
+    <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Menu">
+      <svg class="icon"><use href="#i-menu"/></svg>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a data-page="home" class="active"><svg class="icon"><use href="#i-home"/></svg> Trang chủ</a>
+      <a data-page="products"><svg class="icon"><use href="#i-grid"/></svg> Sim số đẹp</a>
+      <a data-page="about"><svg class="icon"><use href="#i-users"/></svg> Về chúng tôi</a>
+    </div>
+  </div>
+</div>
+
+<main class="container">
+  <!-- HOME PAGE -->
+  <div id="home-page" class="page active">
+    <div class="hero-banner">
+      <div class="hero-text">
+        <h2>SĂN SIM <span class="highlight">VIP</span><br>ƯU ĐÃI LÊN ĐẾN 40%</h2>
+        <div class="hero-badge">
+          <svg class="icon"><use href="#i-trophy"/></svg> Tam hoa, tứ quý, ngũ quý – Giao sim toàn quốc
+        </div>
+      </div>
+    </div>
+
+    <div class="sale-banner">
+      <svg class="icon"><use href="#i-tag"/></svg>
+      <span>Flash sale: Giảm thêm 10% cho sim tứ quý 9 • Nhập mã <strong>HMBVIP</strong></span>
+    </div>
+
+    <!-- MINIGAME GHÉP SỐ -->
+    <div class="minigame-section">
+      <div class="minigame-title">
+        <svg class="icon"><use href="#i-puzzle"/></svg> Ghép số – Nhận ý nghĩa & mã giảm giá
+      </div>
+      <div class="minigame-sub">Nhập một dãy số bất kỳ (ví dụ: 8386, 55555, 1368...) để xem ý nghĩa phong thủy và nhận ưu đãi.</div>
+      <div class="ghép-number-area">
+        <div class="ghép-input-group">
+          <label for="numberInput"><svg class="icon"><use href="#i-hash"/></svg> Dãy số của bạn</label>
+          <input type="text" id="numberInput" placeholder="8386" maxlength="12" inputmode="numeric">
+        </div>
+        <button class="ghép-btn" id="analyzeBtn">
+          <svg class="icon"><use href="#i-magic"/></svg> Ghép & xem ý nghĩa
+        </button>
+      </div>
+      <div id="ghépResult" class="ghép-result">
+        <h4><svg class="icon"><use href="#i-sparkle"/></svg> Kết quả phân tích</h4>
+        <div class="result-number" id="resultNumber">8386</div>
+        <div class="result-meaning" id="resultMeaning">Phát tài phát lộc – may mắn, thịnh vượng.</div>
+        <div id="couponTag" class="coupon-tag">
+          <svg class="icon"><use href="#i-ticket"/></svg> <span id="couponText"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCTS PAGE -->
+  <div id="products-page" class="page">
+    <div id="productListView">
+      <h2 style="margin:20px 0 8px; font-weight:900; color:var(--text-dark); letter-spacing:-0.5px; display:flex; align-items:center; gap:10px;">
+        <svg class="icon" style="width:1.6rem;height:1.6rem;fill:var(--primary);"><use href="#i-sim"/></svg> Kho sim số đẹp
+      </h2>
+      <div class="filter-bar">
+        <div class="filter-group">
+          <label class="filter-label"><svg class="icon"><use href="#i-sim"/></svg> Nhà mạng</label>
+          <select id="filterNetwork">
+            <option value="">Tất cả nhà mạng</option>
+            <option>Viettel</option>
+            <option>Mobifone</option>
+            <option>Vinaphone</option>
+            <option>Vietnamobile</option>
+            <option>Gmobile</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label"><svg class="icon"><use href="#i-money"/></svg> Khoảng giá</label>
+          <select id="filterPrice">
+            <option value="">Tất cả khoảng giá</option>
+            <option value="0-2000000">Dưới 2 triệu</option>
+            <option value="2000000-10000000">2 - 10 triệu</option>
+            <option value="10000000-50000000">10 - 50 triệu</option>
+            <option value="50000000-200000000">Trên 50 triệu</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label"><svg class="icon"><use href="#i-star"/></svg> Loại sim</label>
+          <select id="filterType">
+            <option value="">Tất cả loại sim</option>
+            <option>Tam hoa</option>
+            <option>Tứ quý</option>
+            <option>Ngũ quý</option>
+            <option>Lục quý</option>
+            <option>Số tiến</option>
+            <option>Thần tài</option>
+          </select>
+        </div>
+      </div>
+      <div id="simGrid" class="product-grid"></div>
+    </div>
+    <div id="detailView" class="detail-container hidden">
+      <span class="back-link" id="backToList">
+        <svg class="icon"><use href="#i-arrow-left"/></svg> Quay lại danh sách
+      </span>
+      <div id="detailContent"></div>
+    </div>
+  </div>
+
+  <!-- ABOUT PAGE -->
+  <div id="about-page" class="page">
+    <h2 style="margin:25px 0 15px; font-weight:900; color:var(--text-dark); display:flex; align-items:center; gap:10px;">
+      <svg class="icon" style="width:1.8rem;height:1.8rem;fill:var(--accent);"><use href="#i-star"/></svg> HMB Agency
+    </h2>
+    <div class="about-grid">
+      <div class="about-card">
+        <svg class="icon icon-xl"><use href="#i-map"/></svg>
+        <h3>Địa chỉ</h3><p>ABC, XYZ, Việt Nam</p>
+      </div>
+      <div class="about-card">
+        <svg class="icon icon-xl"><use href="#i-phone"/></svg>
+        <h3>Hotline</h3><p>0855 555 140</p>
+      </div>
+      <div class="about-card">
+        <svg class="icon icon-xl"><use href="#i-envelope"/></svg>
+        <h3>Email</h3><p>hmb.agency.group@gmail.com</p>
+      </div>
+    </div>
+    <div class="about-note">
+      <svg class="icon"><use href="#i-check-circle"/></svg>
+      <span>HMB Agency cung cấp sim số đẹp uy tín, hỗ trợ đăng ký chính chủ toàn quốc.</span>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4><svg class="icon"><use href="#i-sim"/></svg> HMB Agency</h4>
+        <p><svg class="icon"><use href="#i-map"/></svg> ABC, XYZ, Việt Nam</p>
+        <p><svg class="icon"><use href="#i-phone"/></svg> 0855 555 140</p>
+        <p><svg class="icon"><use href="#i-envelope"/></svg> hmb.agency.group@gmail.com</p>
+        <p><svg class="icon"><use href="#i-clock"/></svg> Thứ 2 - Chủ nhật: 8:00 - 22:00</p>
+        <div class="social-links">
+          <a href="#" title="Facebook"><svg class="icon"><use href="#i-facebook"/></svg></a>
+          <a href="#" title="Zalo"><svg class="icon"><use href="#i-zalo"/></svg></a>
+          <a href="#" title="YouTube"><svg class="icon"><use href="#i-youtube"/></svg></a>
+          <a href="#" title="TikTok"><svg class="icon"><use href="#i-tiktok"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4><svg class="icon"><use href="#i-chevron-right"/></svg> Liên kết nhanh</h4>
+        <ul class="footer-links">
+          <li><a data-page="home"><svg class="icon"><use href="#i-chevron-right"/></svg> Trang chủ</a></li>
+          <li><a data-page="products"><svg class="icon"><use href="#i-chevron-right"/></svg> Sim số đẹp</a></li>
+          <li><a data-page="about"><svg class="icon"><use href="#i-chevron-right"/></svg> Về chúng tôi</a></li>
+          <li><a href="#"><svg class="icon"><use href="#i-chevron-right"/></svg> Chính sách bảo mật</a></li>
+          <li><a href="#"><svg class="icon"><use href="#i-chevron-right"/></svg> Điều khoản sử dụng</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4><svg class="icon"><use href="#i-thumbs-up"/></svg> Dịch vụ</h4>
+        <ul class="footer-links">
+          <li><a href="#"><svg class="icon"><use href="#i-chevron-right"/></svg> Mua sim số đẹp</a></li>
+          <li><a href="#"><svg class="icon"><use href="#i-chevron-right"/></svg> Định giá sim</a></li>
+          <li><a href="#"><svg class="icon"><use href="#i-chevron-right"/></svg> Ký gửi sim</a></li>
+          <li><a href="#"><svg class="icon"><use href="#i-chevron-right"/></svg> Hỗ trợ khách hàng</a></li>
+          <li><a href="#"><svg class="icon"><use href="#i-chevron-right"/></svg> Hướng dẫn mua hàng</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4><svg class="icon"><use href="#i-envelope"/></svg> Đăng ký nhận tin</h4>
+        <p style="margin-bottom: 10px;">Nhận thông tin khuyến mãi và sim mới nhất</p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="Email của bạn...">
+          <button type="button">Gửi</button>
+        </div>
+        <div style="margin-top: 20px;">
+          <p style="font-weight: 700; color: white; margin-bottom: 10px; display:flex; align-items:center; gap:8px;">
+            <svg class="icon"><use href="#i-card"/></svg> Thanh toán
+          </p>
+          <div class="payment-methods">
+            <svg class="icon"><use href="#i-money"/></svg>
+            <svg class="icon"><use href="#i-card"/></svg>
+            <svg class="icon"><use href="#i-bank"/></svg>
+            <svg class="icon"><use href="#i-qr"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div><p>© 2025 <strong style="color: var(--accent);">HMB Agency</strong>. Tất cả quyền được bảo lưu.</p></div>
+      <div class="footer-bottom-links">
+        <a href="#">Chính sách bảo mật</a>
+        <a href="#">Điều khoản sử dụng</a>
+        <a href="#">Sitemap</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const simData = [
+      { number: "0868.111.222", network: "Viettel", price: 1800000, type: "Tam hoa", prefix: "086" },
+      { number: "0961.222.333", network: "Viettel", price: 2500000, type: "Tam hoa", prefix: "096" },
+      { number: "0979.333.444", network: "Viettel", price: 3200000, type: "Tam hoa", prefix: "097" },
+      { number: "0902.555.666", network: "Mobifone", price: 2800000, type: "Tam hoa", prefix: "090" },
+      { number: "0938.777.888", network: "Mobifone", price: 3500000, type: "Tam hoa", prefix: "093" },
+      { number: "0916.999.000", network: "Vinaphone", price: 4200000, type: "Tam hoa", prefix: "091" },
+      { number: "0988.888.999", network: "Viettel", price: 28000000, type: "Tứ quý", prefix: "098" },
+      { number: "0889.999.888", network: "Vinaphone", price: 22000000, type: "Tứ quý", prefix: "088" },
+      { number: "0977.777.666", network: "Viettel", price: 35000000, type: "Tứ quý", prefix: "097" },
+      { number: "0904.444.333", network: "Mobifone", price: 25000000, type: "Tứ quý", prefix: "090" },
+      { number: "0933.333.222", network: "Mobifone", price: 30000000, type: "Tứ quý", prefix: "093" },
+      { number: "0912.222.111", network: "Vinaphone", price: 32000000, type: "Tứ quý", prefix: "091" },
+      { number: "0915.555.555", network: "Vinaphone", price: 55000000, type: "Ngũ quý", prefix: "091" },
+      { number: "0903.333.333", network: "Mobifone", price: 42000000, type: "Ngũ quý", prefix: "090" },
+      { number: "0977.666.666", network: "Viettel", price: 68000000, type: "Ngũ quý", prefix: "097" },
+      { number: "0934.444.444", network: "Mobifone", price: 48000000, type: "Ngũ quý", prefix: "093" },
+      { number: "0862.222.222", network: "Viettel", price: 72000000, type: "Ngũ quý", prefix: "086" },
+      { number: "0948.888.888", network: "Vinaphone", price: 85000000, type: "Ngũ quý", prefix: "094" },
+      { number: "0986.666.666", network: "Viettel", price: 120000000, type: "Lục quý", prefix: "098" },
+      { number: "0909.999.999", network: "Mobifone", price: 150000000, type: "Lục quý", prefix: "090" },
+      { number: "0918.888.888", network: "Vinaphone", price: 135000000, type: "Lục quý", prefix: "091" },
+      { number: "0975.555.555", network: "Viettel", price: 145000000, type: "Lục quý", prefix: "097" },
+      { number: "0937.777.777", network: "Mobifone", price: 140000000, type: "Lục quý", prefix: "093" },
+      { number: "0988.123.456", network: "Viettel", price: 8500000, type: "Số tiến", prefix: "098" },
+      { number: "0903.456.789", network: "Mobifone", price: 12000000, type: "Số tiến", prefix: "090" },
+      { number: "0915.678.910", network: "Vinaphone", price: 9500000, type: "Số tiến", prefix: "091" },
+      { number: "0972.345.678", network: "Viettel", price: 11000000, type: "Số tiến", prefix: "097" },
+      { number: "0869.789.012", network: "Vietnamobile", price: 7800000, type: "Số tiến", prefix: "086" },
+      { number: "0988.397.939", network: "Viettel", price: 15000000, type: "Thần tài", prefix: "098" },
+      { number: "0902.797.979", network: "Mobifone", price: 18000000, type: "Thần tài", prefix: "090" },
+      { number: "0913.686.868", network: "Vinaphone", price: 22000000, type: "Thần tài", prefix: "091" },
+      { number: "0974.393.939", network: "Viettel", price: 16000000, type: "Thần tài", prefix: "097" },
+      { number: "0925.686.868", network: "Gmobile", price: 13500000, type: "Thần tài", prefix: "092" }
+    ];
+
+    let currentPage = 'home';
+    let hasSpun = false;
+    let discountCode = null;
+    let discountPercent = 0;
+    let selectedSim = null;
+
+    const pages = {
+      home: document.getElementById('home-page'),
+      products: document.getElementById('products-page'),
+      about: document.getElementById('about-page')
+    };
+    const simGrid = document.getElementById('simGrid');
+    const productListView = document.getElementById('productListView');
+    const detailView = document.getElementById('detailView');
+    const detailContent = document.getElementById('detailContent');
+    const backToListBtn = document.getElementById('backToList');
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    const filterNetwork = document.getElementById('filterNetwork');
+    const filterPrice = document.getElementById('filterPrice');
+    const filterType = document.getElementById('filterType');
+
+    const numberInput = document.getElementById('numberInput');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const ghépResult = document.getElementById('ghépResult');
+    const resultNumber = document.getElementById('resultNumber');
+    const resultMeaning = document.getElementById('resultMeaning');
+    const couponTag = document.getElementById('couponTag');
+    const couponText = document.getElementById('couponText');
+
+    const numberMeanings = {
+      '8386': 'Phát tài phát lộc – may mắn, thịnh vượng, tiền tài dồi dào.',
+      '55555': 'Ngũ quý 5 – đại phú quý, quyền lực, sự cân bằng và may mắn vĩnh cửu.',
+      '1368': 'Sinh tài lộc phát – khởi đầu thuận lợi, tiền tài sinh sôi.',
+      '6868': 'Lộc phát lộc phát – tài lộc nhân đôi, công việc hanh thông.',
+      '8888': 'Tứ quý 8 – phát đạt, thịnh vượng, may mắn toàn diện.',
+      '9999': 'Tứ quý 9 – trường thọ, quyền uy, sức mạnh bền vững.',
+      '1234': 'Số tiến – sự nghiệp thăng tiến, phát triển không ngừng.',
+      '6688': 'Lộc lộc phát phát – tài lộc dồi dào, phát triển bền vững.',
+      '3979': 'Thần tài lớn – cầu tài lộc, buôn may bán đắt.',
+      '7979': 'Thần tài nhỏ – may mắn về tiền bạc, kinh doanh thuận lợi.',
+      '6789': 'Số tiến hoàn hảo – thành công viên mãn, sự nghiệp vững chắc.',
+      '888': 'Tam hoa 8 – phát tài, phát lộc, may mắn.',
+      '999': 'Tam hoa 9 – trường thọ, may mắn, quyền lực.',
+      '555': 'Tam hoa 5 – phú quý, cân bằng, may mắn.',
+      '111': 'Tam hoa 1 – khởi đầu mới, nhất định thành công.',
+      '222': 'Tam hoa 2 – mãi mãi, hạnh phúc bền lâu.',
+      '333': 'Tam hoa 3 – tài lộc, thịnh vượng.',
+      '444': 'Tam hoa 4 – sự nghiệp vững chắc.',
+      '666': 'Tam hoa 6 – lộc lá, tiền tài.',
+      '777': 'Tam hoa 7 – may mắn, quyền năng.'
+    };
+
+    function getMeaning(input) {
+      const cleaned = input.trim();
+      if (!cleaned) return null;
+      if (numberMeanings[cleaned]) return numberMeanings[cleaned];
+      const lastDigit = cleaned.slice(-1);
+      const length = cleaned.length;
+      if (length >= 5 && /^[0-9]+$/.test(cleaned)) {
+        return `Dãy số ${cleaned} mang năng lượng tích cực, tượng trưng cho sự may mắn và thịnh vượng.`;
+      }
+      const mapDigit = {
+        '0': 'vô cùng, trọn vẹn', '1': 'nhất định, khởi đầu', '2': 'mãi mãi, hạnh phúc',
+        '3': 'tài lộc', '4': 'vững chắc', '5': 'phú quý, cân bằng', '6': 'lộc',
+        '7': 'may mắn', '8': 'phát tài', '9': 'trường thọ, quyền lực'
+      };
+      return `Dãy số ${cleaned} có ý nghĩa: ${mapDigit[lastDigit] || 'may mắn'} – tổng hòa năng lượng tích cực.`;
+    }
+
+    analyzeBtn.addEventListener('click', () => {
+      const val = numberInput.value.trim();
+      if (!val) {
+        alert('Vui lòng nhập một dãy số để ghép!');
+        return;
+      }
+      if (!/^[0-9]+$/.test(val)) {
+        alert('Chỉ nhập số (0-9), không dùng ký tự đặc biệt.');
+        return;
+      }
+      const meaning = getMeaning(val);
+      resultNumber.textContent = val;
+      resultMeaning.textContent = meaning || 'Dãy số may mắn, mang lại tài lộc và thành công.';
+
+      if (!hasSpun) {
+        const randomPercent = Math.floor(Math.random() * 15) + 5;
+        discountCode = 'GHÉP' + Math.floor(Math.random() * 10000);
+        discountPercent = randomPercent;
+        hasSpun = true;
+        couponTag.style.display = 'inline-flex';
+        couponText.innerHTML = `Mã giảm ${randomPercent}%: <strong>${discountCode}</strong>`;
+      } else {
+        couponTag.style.display = 'inline-flex';
+        couponText.innerHTML = `Mã giảm ${discountPercent}%: <strong>${discountCode}</strong> (đã nhận)`;
+      }
+
+      ghépResult.classList.add('show');
+    });
+
+    // MOBILE MENU
+    mobileMenuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      navLinks.classList.toggle('active');
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('active'));
+    });
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.top-bar')) navLinks.classList.remove('active');
+    });
+
+    // NAVIGATION
+    function navigateTo(pageName) {
+      if (!pages[pageName]) return;
+      Object.values(pages).forEach(p => p.classList.remove('active'));
+      pages[pageName].classList.add('active');
+      currentPage = pageName;
+      document.querySelectorAll('.nav-links a[data-page]').forEach(link => {
+        link.classList.toggle('active', link.getAttribute('data-page') === pageName);
+      });
+      if (pageName === 'products') {
+        showProductList();
+        renderSimCards();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    document.querySelectorAll('.nav-links a[data-page]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        navigateTo(link.getAttribute('data-page'));
+      });
+    });
+    document.querySelectorAll('.footer-links a[data-page]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        navigateTo(link.getAttribute('data-page'));
+      });
+    });
+
+    // ==== XỬ LÝ CLICK LOGO QUAY VỀ TRANG CHỦ ====
+    document.getElementById('brandLogo').addEventListener('click', () => {
+      navigateTo('home');
+    });
+    // ============================================
+
+    // RENDER SIM CARDS
+    function filterSims() {
+      let filtered = [...simData];
+      if (filterNetwork.value) filtered = filtered.filter(s => s.network === filterNetwork.value);
+      if (filterType.value) filtered = filtered.filter(s => s.type === filterType.value);
+      if (filterPrice.value) {
+        const [min, max] = filterPrice.value.split('-').map(Number);
+        filtered = filtered.filter(s => s.price >= min && s.price <= max);
+      }
+      return filtered;
+    }
+
+    function renderSimCards() {
+      const sims = filterSims();
+      simGrid.innerHTML = '';
+      if (sims.length === 0) {
+        simGrid.innerHTML = '<p style="text-align:center;padding:40px;color:var(--text-medium);font-weight:600;grid-column:1/-1;">Không tìm thấy sim phù hợp.</p>';
+        return;
+      }
+      sims.forEach(sim => {
+        const card = document.createElement('div');
+        card.className = 'sim-card';
+        card.innerHTML = `
+          <span class="sim-type-tag">${sim.type}</span>
+          <div class="sim-number">${sim.number}</div>
+          <span class="network-badge"><svg class="icon"><use href="#i-sim"/></svg> ${sim.network}</span>
+          <div class="price">${sim.price.toLocaleString('vi-VN')}₫</div>
+          <div class="sim-prefix"><svg class="icon"><use href="#i-hash"/></svg> Đầu số ${sim.prefix}</div>
+        `;
+        card.addEventListener('click', () => openSimDetail(sim));
+        simGrid.appendChild(card);
+      });
+    }
+
+    [filterNetwork, filterPrice, filterType].forEach(el => el.addEventListener('change', renderSimCards));
+
+    // DETAIL
+    function openSimDetail(sim) {
+      selectedSim = sim;
+      productListView.classList.add('hidden');
+      detailView.classList.remove('hidden');
+      detailContent.innerHTML = `
+        <div class="detail-number">
+          <svg class="icon"><use href="#i-phone"/></svg> ${sim.number}
+        </div>
+        <span class="network-badge" style="font-size:0.95rem; padding:8px 18px;">
+          <svg class="icon"><use href="#i-sim"/></svg> ${sim.network}
+        </span>
+        <div style="font-size:2rem; font-weight:900; margin:16px 0; color:var(--accent);">${sim.price.toLocaleString('vi-VN')}₫</div>
+        <p style="font-weight:600; display:flex; align-items:center; gap:8px; color:var(--text-medium);">
+          <svg class="icon" style="fill:var(--success);"><use href="#i-check-circle"/></svg>
+          ${sim.type} • Đầu số ${sim.prefix}
+        </p>
+        <div class="order-form">
+          <h3><svg class="icon"><use href="#i-receipt"/></svg> Thông tin đặt hàng</h3>
+          <div class="form-row">
+            <div class="form-group"><label>Họ tên</label><input type="text" id="custName" placeholder="Nguyễn Văn A"></div>
+            <div class="form-group"><label>Số điện thoại</label><input type="tel" id="custPhone" placeholder="SĐT liên hệ"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Giới tính</label>
+              <select id="custGender" required>
+                <option value="" selected>-- Chọn giới tính --</option>
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+                <option value="Khác">Khác</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Địa chỉ nhận hàng</label><input type="text" id="custAddress" placeholder="Số nhà, đường, tỉnh/thành"></div>
+          </div>
+          <div class="discount-input">
+            <input type="text" id="discountCodeInput" placeholder="Mã giảm giá (nếu có)">
+            <button type="button" id="applyDiscountBtn" class="btn-primary" style="padding:14px 24px;">Áp dụng</button>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px;">
+            <span class="total-amount">Thành tiền: <span id="finalPrice">${sim.price.toLocaleString('vi-VN')}₫</span></span>
+            <button class="btn-primary btn-accent" id="orderBtn">
+              <svg class="icon"><use href="#i-cart"/></svg> Đặt sim
+            </button>
+          </div>
+          <div id="discountMsg" style="font-weight:700; font-size:0.92rem;"></div>
+        </div>
+      `;
+
+      document.getElementById('applyDiscountBtn').addEventListener('click', applyDiscountHandler);
+      document.getElementById('orderBtn').addEventListener('click', () => {
+        alert('Cảm ơn bạn đã đặt sim! Chúng tôi sẽ liên hệ sớm.');
+      });
+      detailView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function applyDiscountHandler() {
+      const inputCode = document.getElementById('discountCodeInput').value.trim();
+      const msgDiv = document.getElementById('discountMsg');
+      const finalPriceSpan = document.getElementById('finalPrice');
+      if (!selectedSim) return;
+      let basePrice = selectedSim.price;
+
+      if (discountCode && inputCode.toUpperCase() === discountCode.toUpperCase()) {
+        const discounted = basePrice * (1 - discountPercent / 100);
+        finalPriceSpan.textContent = discounted.toLocaleString('vi-VN') + `₫ (-${discountPercent}%)`;
+        msgDiv.style.color = 'var(--success)';
+        msgDiv.textContent = `✅ Mã giảm giá ${discountPercent}% hợp lệ!`;
+      } else if (inputCode === 'HMBVIP') {
+        const discounted = basePrice * 0.9;
+        finalPriceSpan.textContent = discounted.toLocaleString('vi-VN') + '₫ (-10%)';
+        msgDiv.style.color = 'var(--success)';
+        msgDiv.textContent = '✅ Mã HMBVIP áp dụng thành công.';
+      } else if (inputCode === '') {
+        finalPriceSpan.textContent = basePrice.toLocaleString('vi-VN') + '₫';
+        msgDiv.textContent = '';
+      } else {
+        msgDiv.style.color = 'var(--danger)';
+        msgDiv.textContent = '❌ Mã giảm giá không đúng.';
+        finalPriceSpan.textContent = basePrice.toLocaleString('vi-VN') + '₫';
+      }
+    }
+
+    function showProductList() {
+      productListView.classList.remove('hidden');
+      detailView.classList.add('hidden');
+      selectedSim = null;
+      renderSimCards();
+    }
+
+    backToListBtn.addEventListener('click', showProductList);
+
+    renderSimCards();
+    navigateTo('home');
+
+    numberInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        analyzeBtn.click();
+      }
+    });
+  })();
+</script>
+</body>
+</html>
